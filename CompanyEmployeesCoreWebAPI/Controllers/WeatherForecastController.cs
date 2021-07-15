@@ -18,10 +18,12 @@ namespace CompanyEmployeesCoreWebAPI.Controllers
         };
 
         private readonly ILoggerManager _logger;
+        private readonly IRepositoryManager _repository;
 
-        public WeatherForecastController(ILoggerManager logger)
+        public WeatherForecastController(IRepositoryManager repository, ILoggerManager logger)
         {
             _logger = logger;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -32,6 +34,8 @@ namespace CompanyEmployeesCoreWebAPI.Controllers
             _logger.LogWarn("Warn message from our controller.");
             _logger.LogError("Error message from our controller.");
 
+            //_repository.Company.AnyMethodFromCompanyRepository();
+            //_repository.Employee.AnyMethodFromEmployeeRepository();
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
