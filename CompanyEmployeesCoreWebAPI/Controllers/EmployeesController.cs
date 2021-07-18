@@ -32,6 +32,9 @@ namespace CompanyEmployeesCoreWebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
         {
+            if (!employeeParameters.ValidAgeRange)
+                return BadRequest("Max age must not less than min age.");
+
             var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges: false);
 
             if (company == null)
