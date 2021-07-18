@@ -75,6 +75,11 @@ namespace CompanyEmployeesCoreWebAPI.Controllers
                 return BadRequest("EmployeeForCreationDto object is null");
             }
 
+            if (!ModelState.IsValid) { 
+                _logger.LogError("Invalid model state for the EmployeeForCreationDto object"); 
+                return UnprocessableEntity(ModelState); 
+            }
+
             var company = _repository.Company.GetCompany(companyId, trackChanges: false);
             if (company == null)
             {
@@ -124,6 +129,12 @@ namespace CompanyEmployeesCoreWebAPI.Controllers
                 return BadRequest("EmployeeForUpdateDto object is null");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the EmployeeForUpdateDto object");
+                return UnprocessableEntity(ModelState);
+            }
+
             var company = _repository.Company.GetCompany(companyId, trackChanges: false);
             if (company == null)
             {
@@ -169,7 +180,15 @@ namespace CompanyEmployeesCoreWebAPI.Controllers
 
             var employeeToPatch = _mapper.Map<EmployeeForUpdateDto>(employeeEntity);
             patchDoc.ApplyTo(employeeToPatch);
-            _mapper.Map(employeeToPatch, employeeEntity);
+            _mapper.Map(employeeToPatch, ModelState);
+
+            TryValidateModel(employeeToPatch);
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the patch document");
+                return UnprocessableEntity(ModelState);
+            }
 
             _repository.Save();
 

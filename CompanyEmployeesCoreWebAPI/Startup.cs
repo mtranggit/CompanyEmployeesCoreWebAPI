@@ -39,6 +39,11 @@ namespace CompanyEmployeesCoreWebAPI
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(Startup));
 
+            services.Configure<ApiBehaviorOptions>(opt =>
+            {
+                opt.SuppressModelStateInvalidFilter = true;
+            });
+
             services.AddControllers(config =>
             {
                 config.RespectBrowserAcceptHeader = true;
