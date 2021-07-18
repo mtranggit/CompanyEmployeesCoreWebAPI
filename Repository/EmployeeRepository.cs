@@ -20,7 +20,8 @@ namespace Repository
             var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
                 .FilterEmployees(employeeParameters.MinAge, employeeParameters.MaxAge)
                 .Search(employeeParameters.SearchTerm)
-                .OrderBy(e => e.Name)
+                .Sort(employeeParameters.OrderBy)
+                //.OrderBy(e => e.Name)
                 .Skip((employeeParameters.PageNumber - 1) * employeeParameters.PageSize)
                 .Take(employeeParameters.PageSize)
                 .ToListAsync();
@@ -30,7 +31,7 @@ namespace Repository
                 .Search(employeeParameters.SearchTerm)
                 .CountAsync();
 
-            return new PagedList<Employee>(employees, employeeParameters.PageNumber, employeeParameters.PageSize, count);
+            return new PagedList<Employee>(employees, count, employeeParameters.PageNumber, employeeParameters.PageSize);
 
             // var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
             //    .OrderBy(e => e.Name)
