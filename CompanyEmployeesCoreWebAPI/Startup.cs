@@ -1,3 +1,4 @@
+using CompanyEmployeesCoreWebAPI.ActionFilters;
 using CompanyEmployeesCoreWebAPI.Extensions;
 using Contracts;
 using Microsoft.AspNetCore.Builder;
@@ -38,6 +39,9 @@ namespace CompanyEmployeesCoreWebAPI
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<ValidateCompanyExistsAttribute>();
+            services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
 
             services.Configure<ApiBehaviorOptions>(opt =>
             {
