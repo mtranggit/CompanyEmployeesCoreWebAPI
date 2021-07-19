@@ -68,6 +68,8 @@ namespace CompanyEmployeesCoreWebAPI
             services.AddCustomMediaTypes();
 
 
+            services.ConfigureVersioning();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CompanyEmployeesCoreWebAPI", Version = "v1" });
