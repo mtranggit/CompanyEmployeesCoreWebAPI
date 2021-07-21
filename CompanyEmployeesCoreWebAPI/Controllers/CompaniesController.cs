@@ -5,6 +5,7 @@ using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
@@ -32,7 +33,8 @@ namespace CompanyEmployeesCoreWebAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet(Name = "GetCompanies")]
+        [HttpGet(Name = "GetCompanies"), Authorize(Roles = "Manager")]
+        //[HttpGet(Name = "GetCompanies"), Authorize]
         public async Task<IActionResult> GetCompanies()
         {
             try

@@ -87,6 +87,9 @@ namespace CompanyEmployeesCoreWebAPI
 
             services.AddAuthentication();
             services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
+
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 
             services.AddSwaggerGen(c =>
             {
