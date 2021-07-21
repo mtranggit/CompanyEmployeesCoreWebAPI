@@ -91,10 +91,13 @@ namespace CompanyEmployeesCoreWebAPI
 
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CompanyEmployeesCoreWebAPI", Version = "v1" });
-            });
+            services.ConfigureSwagger();
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CompanyEmployeesCoreWebAPI", Version = "v1" });
+
+            //    c.SwaggerDoc("v2", new OpenApiInfo { Title = "CompanyEmployeesCoreWebAPI", Version = "v2" });
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,7 +107,11 @@ namespace CompanyEmployeesCoreWebAPI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CompanyEmployeesCoreWebAPI v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CompanyEmployeesCoreWebAPI v1");
+                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "CompanyEmployeesCoreWebAPI v2");
+                });
             } 
             else
             {
