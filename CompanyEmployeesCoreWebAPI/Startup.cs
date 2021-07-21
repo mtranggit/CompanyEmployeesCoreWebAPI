@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using CompanyEmployeesCoreWebAPI.ActionFilters;
 using CompanyEmployeesCoreWebAPI.Extensions;
 using CompanyEmployeesCoreWebAPI.Utility;
@@ -72,6 +73,16 @@ namespace CompanyEmployeesCoreWebAPI
             services.ConfigureVersioning();
             services.ConfigureResponseCaching();
             services.ConfigureHttpCacheHeaders();
+
+            // needed to load configuration from appsettings.json
+            services.AddOptions();
+            // needed to store rate limit counters and ip rules
+            services.AddMemoryCache();
+
+            services.ConfigureRateLimitingOptions();
+            // inject counter and rules stores
+            services.AddInMemoryRateLimiting();
+
             services.AddHttpContextAccessor();
 
             services.AddSwaggerGen(c =>
@@ -109,6 +120,8 @@ namespace CompanyEmployeesCoreWebAPI
 
             app.UseResponseCaching();
             app.UseHttpCacheHeaders();
+
+            app.UseIpRateLimiting();
 
             app.UseRouting();
 
