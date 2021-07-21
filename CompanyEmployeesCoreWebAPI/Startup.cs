@@ -85,6 +85,9 @@ namespace CompanyEmployeesCoreWebAPI
 
             services.AddHttpContextAccessor();
 
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CompanyEmployeesCoreWebAPI", Version = "v1" });
@@ -125,6 +128,7 @@ namespace CompanyEmployeesCoreWebAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
